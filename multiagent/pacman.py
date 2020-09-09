@@ -716,6 +716,10 @@ def runGames(layout, pacman, ghosts, display, numGames, record, numTraining=0, c
         print('Record:       ', ', '.join(
             [['Loss', 'Win'][int(w)] for w in wins]))
         
+
+        # cria as tabelas de csv
+   
+
         # print the agent average thinking time per action
         totalTimes = [game.ttt for game in games]
         quants = [game.quant for game in games]
