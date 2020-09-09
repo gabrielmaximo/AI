@@ -4,7 +4,7 @@ import random, util
 
 from game import Agent
 
-class ReflexAgent(Agent):
+class ReflexAgent_num1(Agent):
     def getAction(self, gameState):
         legalMoves = gameState.getLegalActions()
 
@@ -45,7 +45,7 @@ class ReflexAgent(Agent):
 
         return dist
 
-   """ def evaluationFunction(self, currentGameState, action):
+def evaluationFunction(self, currentGameState, action):
         successorGameState = currentGameState.generatePacmanSuccessor(action)
         newPos = successorGameState.getPacmanPosition()
         newFood = successorGameState.getFood()
@@ -67,7 +67,7 @@ class ReflexAgent(Agent):
         if (currentGameState.getNumFood() > successorGameState.getNumFood()):
             foodSuccessor = 300
 
-        return successorGameState.getScore() - 5 * min(foodDist) + foodSuccessor """
+        return successorGameState.getScore() - 5 * min(foodDist) + foodSuccessor 
 
 def scoreEvaluationFunction(currentGameState):
     return currentGameState.getScore()
