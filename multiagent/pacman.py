@@ -10,6 +10,7 @@
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
+import csv
 
 
 """
@@ -257,6 +258,7 @@ class GameState:
         return str(self.data)
 
     def initialize(self, layout, numGhostAgents=1000):
+       
         """
         Creates an initial game state from a layout array (see layout.py).
         """
@@ -290,6 +292,7 @@ class ClassicGameRules:
         game = Game(agents, display, self, catchExceptions=catchExceptions)
         game.state = initState
         self.initialState = initState.deepCopy()
+        self.moves = 0
         self.quiet = quiet
         return game
 
@@ -297,19 +300,31 @@ class ClassicGameRules:
         """
         Checks to see whether it is time to end the game.
         """
+        self.moves +=1 
         if state.isWin():
             self.win(state, game)
-        if state.isLose():
+        if state.isLose() or self.moves >5000:
             self.lose(state, game)
+     
 
     def win(self, state, game):
         if not self.quiet:
             print("Pacman emerges victorious! Score: %d" % state.data.score)
         game.gameOver = True
 
+    def hasExceeded(self,state,game):
+        if not self.quiet:
+            print("Pacman exceeded moves: %d" % state.data.score)
+        game.gameOver = True
+
     def lose(self, state, game):
         if not self.quiet:
             print("Pacman died! Score: %d" % state.data.score)
+        game.gameOver = True
+   
+    def exceededMoves(self, state, game):
+        if self.moves > 5000:
+            print("exceeded limit: %d" % state.data.score)
         game.gameOver = True
 
     def getProgress(self, game):
@@ -716,10 +731,6 @@ def runGames(layout, pacman, ghosts, display, numGames, record, numTraining=0, c
         print('Record:       ', ', '.join(
             [['Loss', 'Win'][int(w)] for w in wins]))
         
-
-        # cria as tabelas de csv
-   
-
         # print the agent average thinking time per action
         totalTimes = [game.ttt for game in games]
         quants = [game.quant for game in games]
@@ -729,6 +740,15 @@ def runGames(layout, pacman, ghosts, display, numGames, record, numTraining=0, c
         att /= len(totalTimes)
         #print(totalTimes,quants, att)
         print('Average Thinking Time:', att)
+
+        # cria as tabelas de csv
+        with open('data.csv', 'w', newline='') as csvfile:
+            fieldnames = ['isWin', 'thinkingTimeTotal','score']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for game in games: 
+                print(game.state.isWin())
+                writer.writerow({'isWin': game.state.isWin(), 'thinkingTimeTotal': game.ttt, 'score': game.state.getScore()})
 
     return games
 

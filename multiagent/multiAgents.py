@@ -198,7 +198,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         def term(state, d):
             return state.isWin() or state.isLose() or d == self.depth
 
-        def exp_value(state, d, Fantasma):
+        def exp_value(state, d, Fantasma): #minimizadora
 
             if term(state, d):
                 return self.evaluationFunction(state)
@@ -213,7 +213,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
                     v += prob * exp_value(state.generateSuccessor(Fantasma, action), d, Fantasma + 1)
             return v
 
-        def max_value(state, d):
+        def max_value(state, d): #maximizadora
 
             if term(state, d):
                 return self.evaluationFunction(state)
@@ -233,7 +233,6 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
 
 
 def betterEvaluationFunction(currentGameState):
-    "*** YOUR CODE HERE ***"
 
     newPos = currentGameState.getPacmanPosition()
     newFood = currentGameState.getFood()
