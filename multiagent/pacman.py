@@ -748,7 +748,7 @@ def runGames(layout, pacman, ghosts, display, numGames, record, numTraining=0, c
             writer.writeheader()
             for game in games: 
                 print(game.state.isWin())
-                writer.writerow({'isWin': game.state.isWin(), 'thinkingTimeTotal': game.ttt, 'score': game.state.getScore()})
+                writer.writerow({'isWin': game.state.isWin(), 'thinkingTimeTotal': game.ttt/game.quant, 'score': game.state.getScore()})
 
     return games
 
